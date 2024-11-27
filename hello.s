@@ -3,32 +3,30 @@
 .align 2
 
 _main:
-    // write(stdout, "Hello, World!\n", 14);
-    mov x0, #1                   // first arg
-    // second ary
-    // note: macos is picky, so we need to carefully deal with "Hello, World!"
-    adrp x1, message@PAGE        // 1. Load page-aligned address of message
-    add x1, x1, message@PAGEOFF  // 2. Add offset to get full address
-    mov x2, #14                  // 3rd arg
-    bl write                     // invoke write function
+    // write(stdout, "Hello, World!\n", 14)
+    mov x0, #1                   // File descriptor: stdout (1st argument)
+    adrp x1, message@PAGE        // Load page-aligned address of message
+    add x1, x1, message@PAGEOFF  // Add offset to get the full address (2nd argument)
+    mov x2, #14                  // Length of the message (3rd argument)
+    bl write                     // Call the write function
 
     // exit(0)
-    mov x0, #0                   // first arg
-    bl exit                      // invoke exit function
+    mov x0, #0                   // Exit status: 0 (1st argument)
+    bl exit                      // Call the exit function
 
 // write(fd x0, buffer x1, length x2)
 write:
-    movz x16, #0x2000, lsl #16   // 32bit syscall in 64bit is annoying, so we doit in 2 steps.
-    orr x16, x16, #4             // update last value to 4 -> 0x20000004
-    svc #0                       // syscall
-    ret                          // Return
+    movz x16, #0x2000, lsl #16   // Load syscall base: 0x20000000
+    orr x16, x16, #4             // Set syscall number: write (0x20000004)
+    svc #0                       // Perform the syscall
+    ret                          // Return to caller
 
 // exit(status x0)
 exit:
-    movz x16, #0x2000, lsl #16   // 32bit syscall in 64bit is annoying, so we doit in 2 steps.
-    orr x16, x16, #1             // update last value to 4 -> 0x20000001
-    svc #0                       // syscall
-    ret                          // Return 
+    movz x16, #0x2000, lsl #16   // Load syscall base: 0x20000000
+    orr x16, x16, #1             // Set syscall number: exit (0x20000001)
+    svc #0                       // Perform the syscall
+    ret                          // Return to caller
 
 .section __TEXT,__cstring,cstring_literals
 message:
