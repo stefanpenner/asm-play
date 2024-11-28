@@ -41,30 +41,24 @@ _main:
 
 print_banana:
   frame
-
-  write_string STDOUT, banana, 8
-
+    write_string STDOUT, banana, 8
   unframe
   ret
 
 print_hello:
   frame
-
-  write_string STDOUT, hello_world, 14
-
+    write_string STDOUT, hello_world, 14
   unframe
   ret
 
 // write(fd x0, buffer x1, length x2)
 write:
   syscall 0x4
-
   ret
 
 // exit(status x0)
 exit:
   syscall 0x1
-
   ret                               // Return to caller
 
 .section __TEXT,__cstring,cstring_literals
