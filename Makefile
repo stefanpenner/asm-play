@@ -6,7 +6,7 @@ run: hello
 	./hello
 
 clean:
-	rm -rf hello.o hello actual.txt
+	git clean -fdx
 
 test: clean hello
 	./hello > actual.txt && \
