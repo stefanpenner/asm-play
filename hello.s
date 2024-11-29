@@ -41,7 +41,7 @@ _main:
 
 print_banana:
   frame
-    write_string STDOUT, banana, 8
+    write_string STDOUT, banana, 7
   unframe
   ret
 
