@@ -6,4 +6,8 @@ run: hello
 	./hello
 
 clean:
-	rm -rf hello.o hello
+	rm -rf hello.o hello actual.txt
+
+test: clean hello
+	./hello > actual.txt && \
+	git diff --no-index --text actual.txt expected.txt 
