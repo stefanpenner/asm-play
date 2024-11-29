@@ -10,4 +10,4 @@ clean:
 
 test: clean hello
 	./hello > actual.txt && \
-	git diff --no-index --text actual.txt expected.txt 
+	diff actual.txt expected.txt 
