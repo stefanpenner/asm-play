@@ -20,7 +20,7 @@
   adrp x1, \string@PAGE        // Load page-aligned address of the string
   add x1, x1, \string@PAGEOFF  // Add offset to get the full address (2nd argument)
   mov x2, #\len                // Length of the string (3rd argument)
-  bl write                     // Call the write function
+  syscall 0x4                  // call write
 .endm
 
 .macro syscall num
@@ -31,35 +31,28 @@
 
 .globl _main
 _main:
-  bl print_hello
-  bl print_banana
+  write_string STDOUT, hello_world, 14
+  write_string STDOUT, banana, 7
 
-  // exit(0)
+  mov x0, 5 // set the loop counter to 5
+  bl loop
+
+  // exit
   mov x0, #EXIT_SUCCESS
-  bl exit
-  // no real point in restoring the frame, process just gets torn down
-
-print_banana:
-  frame
-    write_string STDOUT, banana, 7
-  unframe
-  ret
-
-print_hello:
-  frame
-    write_string STDOUT, hello_world, 14
-  unframe
-  ret
-
-// write(fd x0, buffer x1, length x2)
-write:
-  syscall 0x4
-  ret
-
-// exit(status x0)
-exit:
   syscall 0x1
-  ret                               // Return to caller
+  ret
+
+
+loop:
+  cmp x0, 0 // compare to 0
+  beq done_loop
+  sub x0, x0, 1 // decrement
+
+  write_string STDOUT, banana, 7
+  b loop
+
+done_loop:
+  ret
 
 .section __TEXT,__cstring,cstring_literals
 hello_world:
