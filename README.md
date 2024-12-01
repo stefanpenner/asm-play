@@ -1,11 +1,7 @@
 # Just sratching an Itch.
 
-Hello World in Assembly on MacOs 15.1 (24B2082)
-
-* some basic assembly experiments
-* intended to run on Apple Silicon
-* exploring minimal details
+Exploring Assembly on MacOs 15.1 (24B2082)
 
 ```sh
-make run
+make [clean|test|run|update_fixtures]
 ```
