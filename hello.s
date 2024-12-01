@@ -34,16 +34,16 @@ _main:
   write_string STDOUT, hello_world, 14 // Print "Hello, World!"
   write_string STDOUT, banana, 7       // Print "Banana"
 
-  mov x0, 5             // Set the loop counter to 5
+  mov x19, 5             // Set the loop counter to 5
   bl loop               // Call the loop function
 
   mov x0, #EXIT_SUCCESS // Exit code
   syscall 0x1           // Exit syscall
 
 loop:
-  cmp x0, 0             // Compare counter to 0
+  cmp x19, 0             // Compare counter to 0
   beq done_loop         // If counter == 0, exit loop
-  sub x0, x0, 1         // Decrement counter
+  sub x19, x19, 1         // Decrement counter
   write_string STDOUT, banana, 7 // Print "Banana"
   b loop                // Repeat loop
 

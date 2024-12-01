@@ -10,6 +10,9 @@ clean:
 	@printf "\033[34m- cleaning... \033[0m\n"
 	@git clean -fdx > /dev/null
 
+update_fixtures: hello
+	./update_fixtures "./hello" "./expected.txt"
+	
 test: clean hello
 	@printf "\033[34m- testing... \033[0m"
 	@./hello > actual.txt && \
